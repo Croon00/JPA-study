@@ -1,0 +1,72 @@
+## Entity (객체)
+
+### @Entity
+
+를 클래스에(객체) 붙여서 사용 (기존 spring boot에서 사용하던 dto부분)
+
+### @Id
+
+pk 설정, @GeneratedValue  를 통해서 자동 증가
+
+### @Column
+
+이 생략되어서 해당 속성들에 붙어있음 (명시해가지고 unique, nullable 등 사용 가능)
+
+### @Temporal
+
+시간 속성 사용 가능
+
+### @Transient
+
+사용하면 해당 속성은 테이블에 추가 x
+
+### @OneToMany
+
+1. 뒤에가 Many 임으로 Collection 한 타입에 사용
+2. account 와 study를 양방향으로 안 만들면 가운데 조인 테이블인 account_study가 생성됨
+3. 양방향 관계를 만들기 위해 mappedBy 사용 — > 새로운 테이블을 생성 안하고 account랑 study 두개의 테이블로만 만듬
+4. 조인 테이블로 만들어진다.
+5. 밑에 해당하는 것을 안 하면 study 테이블에 owner_id 속성만 생기고 데이터가 들어오지 않게된다. (account 객체에 해당 메서드를 추가 하고 addStudy(study)를 해서 해당 계정에 항상 추가)
+
+```java
+public void addStudy(Study study) {
+        this.getStudies().add(study); // 얘는 옵셔널(객체지향 적으로 봤을땐 해야한다.)
+        study.setOwner(this);
+        // 이쪽이 오너 사이드는 아니지만 설정하면 된다.
+    }
+```
+
+### @ManyToOne
+
+1. 이 속성이 왜래키가 되는 것
+2. 스터디 입장에선 사용자가 많음
+3. 해당 속성이름에 _id가 붙어서 생성됨
+4. 이 관계에선 해당 왜래키(속성)을 가진 Entity가 주인 Entity이다.
+
+## 객체의 상태 변화
+
+save()를 하면 Persistent 상태가 된다.
+
+바로 데이터베이스에 넣는 것이 아니다.
+
+Persistent 상태에서 Hibernate가 여러 일을 해준다.
+
+1. 1차 캐시
+
+`(이미 session이란 persistent context(entitymanager)에 이 인스터스를 넣은 것) session.save(account) 에서 account`
+
+1. 
+
+```java
+Account abc1 = session.load(Account.class, account.getId());
+abc1 
+// 위에서 셀렉트 쿼리가 발생하지 않는다. 이미 캐시에 있기 때문에
+// 이 객체의 변경 사항을 계속 관리해주고 있다는 뜻
+        // 이미 save해서 insert 한번 하고 select 해서 보여주고 또 업데이트를 했을 것이다. but -->, 그냥 insert 하고 update 했다(알아서) (select x)
+        abc1.setUsername("abc2");
+        abc1.setUsername("abc3");
+        abc1.setUsername("abc");
+        // 이렇게 했을 경우 결국 초기에 주었던 이름과 같아짐으로 update 또한 일어나지 않는다.
+```
+
+![12.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/4f35257f-9ea0-49e0-8521-a9a0102eb934/12.png)
