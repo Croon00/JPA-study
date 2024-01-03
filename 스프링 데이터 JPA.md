@@ -13,7 +13,7 @@
 
 이것으로 시자한다. 이것이 import 되어있다. (BeanDefinition을 정의할 수 있는) 이는 Spring Frame Work이다..
 
-![1.PNG](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/0527f688-1dc8-4be7-b262-b0c33c23f3ae/1.png)
+![2](https://github.com/Croon00/JPA-study/assets/73871364/9ba6d949-d3a9-4141-85d3-7778af3bf1aa)
 
 ## Dao의 기능을 해준다!
 
