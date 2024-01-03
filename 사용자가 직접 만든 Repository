@@ -4,4 +4,5 @@
 
 공통된 메서드들을 들고가고 싶으면 @NoRepositoryBean을 사용 후 Repository를 상속해서 쓰고싶은 것들만 가져온 후(JpaRepository가서 메서드 긁어오기) 이 인터페이스를 implements 해서 사용한다.
 
-![3](https://github.com/Croon00/JPA-study/assets/73871364/9a357e7f-682d-4676-ad5e-51ba69251942)
+
+![3](https://github.com/Croon00/JPA-study/assets/73871364/8f3a3c08-ba3c-4eab-b820-95bb410d6157)
